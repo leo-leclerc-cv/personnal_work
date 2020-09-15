@@ -1,0 +1,27 @@
+section {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+section figure {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+
+}
+
+section figure figcaption {
+	font-size: 3em;
+	text-align: center;
+}
+
+section figure img {
+	border-radius: 1em;
+	margin: 0.5em auto 0.5em auto;
+	max-height: 22em;
+}
+
+a:link {color: black; text-decoration: none;}
+a:visited {color: black; text-decoration: none;}
+a:hover {color: black; text-decoration: underline;}
