@@ -1,0 +1,32 @@
+body {
+	text-align: center;
+}
+
+#container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+#container * {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin: auto;
+}
+
+p#description {
+	font-size: 1.5em;
+}
+
+p#description * {
+	vertical-align: middle;
+}
+
+#container img {
+	max-height: 300px;
+	max-width: 200px;
+}
+
+img#plateform {
+	max-width: 150px;
+}

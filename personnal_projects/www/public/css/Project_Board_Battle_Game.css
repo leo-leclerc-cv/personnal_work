@@ -1,0 +1,139 @@
+/* body {
+ 	background-color: #938EB5;
+} */
+
+div#center {
+	display: flex;
+}
+
+div#board {
+	position: relative;
+	margin: auto;
+	height: 600px;
+	width: 600px;
+	/*background-color: #483D8B;
+    background-image: url("../img/Project_Board_Battle_Game/Board.png");
+    background-repeat: no-repeat;
+    background-position: center;
+	overflow: hidden;
+	background-size: cover;*/
+}
+
+table {	
+ 	position: absolute;
+ 	background-color: #483D8B;
+	border: 1px solid white;
+}
+
+tr, td {
+	height: 44px;
+	width: 44px;
+	border: 1px solid white;
+	padding: 0px;
+}
+
+img.pions {
+	position: absolute;
+	height: 44px;
+	width: 44px;
+	border: 1px solid white;
+	z-index: 2;
+}
+
+div.respawnPoint {
+	position: absolute;
+	height: 44px;
+	width: 44px;
+	background-color: #4169E1;
+	border: 1px solid white;
+	z-index: 1;
+	opacity: 0.5;
+}
+
+div.mark {
+	position: absolute;
+	height: 44px;
+	width: 44px;
+	background-color: green;
+	border: 1px solid white;
+	opacity: 0.5;
+	z-index: 1;
+}
+
+div#magie {
+	position: absolute;
+	height: 44px;
+	width: 44px;
+	background-color: red;
+	border: 1px solid white;
+	opacity: 0.5;
+}
+
+#info_container p {
+	z-index: 10;
+	background-color: grey;
+	color: white;
+	margin: 0px;
+	font-size: 1.25em;
+	padding: 0.5em;
+	border-radius: 0.5em;
+	text-align: center;
+	opacity: 0.75;
+}
+
+#info_container #tour_container {
+	position: fixed;
+	bottom: 5px;
+	right: 45%;
+}
+
+#info_container #player_tour_container {
+	position: fixed;
+	top: 5px;
+	right: 75px;
+	writing-mode: vertical-lr;
+	text-orientation: upright;
+	max-height: 85%;
+}
+
+#info_container #points_P1_container {
+	position: fixed;
+	bottom: 5px;
+	right: 75px;
+}
+
+#info_container #points_P2_container {
+	position: fixed;
+	bottom: 5px;
+	left: 75px;
+}
+
+#info_container #moving_points_container {
+	position: fixed;
+	top: 5px;
+	left: 75px;
+	writing-mode: vertical-lr;
+	text-orientation: upright;
+	max-height: 85%;
+}
+
+#flex_container {
+	display: flex;
+}
+
+#win_container {
+	display: none;
+
+	z-index: 11;
+	position: absolute;
+	top: 50%; left: 50%;
+	transform: translate(-50%, -50%);
+
+	font-size: 1.5em;
+	padding: 1.5em;
+	opacity: 0.9;
+	background-color: grey;
+	color: #483D8B;
+	border: 3px solid green;
+	border-radius: 1.5em;
+}

@@ -1,0 +1,10 @@
+form {
+	padding: 1.5em;
+	margin: 2.5em;
+	border: 2px dotted purple;
+	border-radius: 1em;
+}
+
+form * {
+	text-align: center;
+}

@@ -1,0 +1,19 @@
+body {
+	margin-top: 5%;
+	text-align: center;
+}
+
+form {
+	padding: 15px;
+}
+
+form * {
+	margin: 10px;
+}
+
+div#flex_row {
+	display: flex;
+	flex-direction: row;
+	word-wrap: all;
+	justify-content: space-around;
+}

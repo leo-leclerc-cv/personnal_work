@@ -1,0 +1,48 @@
+body {
+	text-align: center;
+}
+
+form {
+	padding: 15px;
+}
+
+form * {
+	margin: 10px;
+}
+
+
+.flex {
+	margin: 50px;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+
+.Y span, .N span {
+	color: black;
+}
+
+.Y, .N {
+	margin: 100px;
+	padding: 25px;
+	border-radius: 0.2em;
+	font-size: 2em;
+}
+.Y {
+	border-top: 2px solid LightCoral;
+	border-left: 2px solid LightCoral;
+	border-bottom: 2px solid Firebrick;
+	border-right: 2px solid Firebrick;
+	background-color: Crimson;
+}
+.Y:hover {	background-color: Red; }
+
+.N {
+	border-top: 2px solid Lime;
+	border-left: 2px solid Lime;
+	border-bottom: 2px solid LimeGreen;
+	border-right: 2px solid LimeGreen;
+	background-color: LawnGreen;
+}
+.N:hover { background-color: SpringGreen; }

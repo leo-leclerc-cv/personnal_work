@@ -1,0 +1,33 @@
+header#Boot img#Haut {
+    top: -428px;
+}
+
+header#Boot img#Bas {
+    bottom: -194px;
+}
+
+div#menu {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+div a figure img {
+    height: 150px;
+}
+
+div a figure {
+    padding: 25px;
+}
+
+div a figure:hover {
+    background-image: url("../img/Hover.png");
+    background-size: 100%, 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+figcaption {
+	font-size: 1.5em;
+    color: black;
+}

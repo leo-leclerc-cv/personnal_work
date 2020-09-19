@@ -1,0 +1,26 @@
+.relative {
+	margin: auto;
+	position: relative;
+	height: 150px;
+	width: 150px;
+}
+
+.absolute {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	height: 50px;
+}
+
+div.flex {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+}
+
+div.flex *:not(form) {
+	margin: auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}

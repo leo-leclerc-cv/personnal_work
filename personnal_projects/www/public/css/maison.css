@@ -1,0 +1,179 @@
+#flex {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	margin: 50px;
+}
+
+img.logo {
+    max-height: 150px;
+    min-height: 100px;
+    max-width: 250px;
+    min-width: 100px;
+    z-index: 1;
+	word-break: break-all;.
+	overflow-wrap: break-word;
+	overflow: hidden;
+}
+
+figure {
+	position: relative;
+	z-index: 0;
+}
+
+img.modifier {
+	width: 50px;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	z-index: 2;
+	display: none;
+}
+
+span.maison:hover {
+    background-image: url("../img/Hover.png");
+    background-size: 100%, 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+span.maison {
+	padding: 10px;
+    margin: 10px;
+}
+
+figcaption, a {
+	font-size: 1.5em;
+    color: black;
+}
+
+
+footer {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	position: fixed;
+	bottom: 5px;
+	right: 110px;
+}
+
+footer * {
+	margin: auto;
+	padding: 10px;
+}
+
+#wrench {
+	height: 50px;
+}
+
+#wrench:hover {
+	cursor: pointer;
+}
+
+#reset {
+	display: none;
+	height: 100px;
+}
+
+div#form {
+	z-index: 5;
+	position: absolute;
+	top: 50%; left: 50%;
+	transform: translate(-50%, -50%);
+	height: 30em;
+	width: 35em;
+	text-align: center;
+	color: black;
+	background-color: MistyRose;
+	border: 3px solid RosyBrown;
+	border-radius: 1em;
+	display: none;
+}
+
+div#crossBorder {
+	top: 5px;
+	right: 5px;
+	background-color: IndianRed;
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	border-style: solid;
+	border-width: medium;
+	border-color: black black grey grey;
+	border-radius: 1000px;
+}
+
+div#crossBorder:hover {
+	background-color: red;
+	border-color: DimGray DimGray DarkGray DarkGray;
+}
+
+div#cross1 {
+	top: 3px;
+	right: 13px;
+	background-color: white;
+	position: absolute;
+	height: 25px;
+	width: 5px;
+	transform: rotate(-45deg);
+}
+
+div#cross2 {
+	top: 3px;
+	right: 13px;
+	background-color: white;
+	position: absolute;
+	height: 25px;
+	width: 5px;
+	transform: rotate(45deg);
+}
+
+div#form form {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+}
+
+div#form form * {
+	margin: auto;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	padding: 0.5em;
+}
+
+input{
+	text-align: center;
+}
+
+.title {
+	word-break: break-all;
+	overflow-wrap: break-word;
+	max-width: 250px;
+	max-height: 250px;
+	overflow: auto;
+}
+
+div#form p {
+	margin: auto;
+	margin-top: 15px;
+	max-width: 20em;
+	max-height: 2.5em;
+	word-break: break-all;
+	overflow-wrap: break-word;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-decoration: underline;
+}
+
+div#form span.labelAndInput label {
+	word-break: break-word;
+	overflow-wrap: break-word;
+}
+
+span.labelAndInput {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	background-color: rgba(255, 182, 193, 0.5);
+	border-radius: 0.5em;
+}

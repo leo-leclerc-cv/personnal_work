@@ -1,0 +1,70 @@
+body {
+	background-color: #1A65B5;
+	color: white;
+}
+
+@media all and (max-width: 720px) {
+
+	div#flex {
+	}
+
+	span#smiley {
+		top: 0px;
+		right: 5%;
+		position: fixed;
+		color: black;
+		font-size: 30em;
+		z-index: -1;
+	}
+
+	span#text * {
+		z-index: 1;
+	}
+}
+
+@media all and (min-width: 720px) {
+
+	div#flex {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	span#smiley {
+		margin-left: 150px;
+		margin-right: 50px;
+		font-size: 25em;
+	}
+}
+
+span#text {
+	margin: auto;
+	font-size: 3em;
+}
+
+h1#error {
+	text-align: center;
+}
+
+span#error_text {
+	font-size: 1em;
+}
+
+span#error_php {
+	display: none;
+	color: #FF4B4B;
+	font-size: 1.5em;
+}
+
+aside {
+	position: fixed;
+	bottom: 10px;
+	left: 20px;
+}
+
+a[title="Hosted on free web hosting 000webhost.com. Host your own website for FREE."] {
+	display: none;
+}
+
+a:link {color:#4FFF6C; text-decoration:underline;}
+a:visited {color:#4FFF6C; text-decoration:underline;}
+a:hover {color:#4FFF6C; text-decoration:none;}

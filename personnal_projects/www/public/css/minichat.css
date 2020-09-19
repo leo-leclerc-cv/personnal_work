@@ -1,0 +1,123 @@
+body {
+	background-color: rgb(45, 45, 45);
+}
+
+header form {
+	color: rgb(45, 45, 45);
+	background-color: rgb(138, 196, 58);
+	display: flex;
+	justify-content: space-around;
+	padding: 15px;
+	border-radius: 15px;
+}
+
+@media all and (max-width: 990px) {
+	form {
+		flex-direction: column;
+	}
+
+	header form * {
+		margin: 5px;
+		text-align: center;
+	}
+
+}
+
+@media all and (min-width: 990px) {
+	form {
+		flex-direction: row;
+	}
+
+	header form * {
+		margin: auto;
+	}
+
+}
+
+header form div span {
+	font-size: 1.5em;
+}
+
+input {
+	height: 2em;
+}
+
+section {
+	padding-top: 25px;
+}
+
+div.msgBox {
+	display: flex;
+    align-items: center;
+	padding: 5px;
+	border: 2px solid black;
+	border-radius: 5px;
+	margin: 5px;
+}
+
+@media all and (max-width: 990px) {
+	div.msgBox {
+		flex-direction: column;
+	}
+	
+	span.rowOnly {
+		display: none;
+	}
+}
+
+@media all and (min-width: 990px) {
+	div.msgBox {
+		flex-direction: row;
+		justify-content: flex-start;
+	}
+
+	span.rowOnly {
+		opacity: 0;
+		font-size: 1.5em;
+	}
+}
+
+span.msgDate {
+	color: grey;
+	font-size: 1em;
+	word-wrap: break-word;
+}
+
+span.msgPseudo {
+	color: white;
+	font-size: 1.5em;
+	word-wrap: break-word;
+}
+
+span.msgMsg {
+	color: rgb(102, 144, 185);
+	font-size: 2em;
+	word-wrap: break-word;
+}
+
+nav img {
+	position: fixed;
+	bottom: 5px;
+	right: 5px;
+	width: 60px;
+}
+
+footer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	color: white;
+}
+
+h1#error {
+	color: red;
+	background-color: black;
+	border: 5px solid red;
+	text-align: center;
+	padding: 15px;
+}
+
+a:link { color: white; text-decoration: underline; }
+a:visited { color: white; text-decoration: underline; }
+a:hover { color: white; text-decoration: none; }
+a:focus { color: red; text-decoration: none; }
