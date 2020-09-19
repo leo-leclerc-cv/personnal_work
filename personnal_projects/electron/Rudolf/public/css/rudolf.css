@@ -1,0 +1,165 @@
+body {
+    background-color: rgb(0, 15, 63);
+    background-image: url("../img/Rudolf/Backgrounds/Hiver.png");
+    background-repeat: no-repeat;
+    background-position: center;
+	overflow: hidden;
+	background-size: cover;
+	color: white;
+}
+
+img[alt="Pause"] {
+	z-index: 5;
+}
+
+.trueRudolf { display: all; }
+.falseRudolf { display: none; }
+.lateRudolf { color: grey; }
+
+aside#aside_gauche {
+	position: relative;
+	z-index: 2;
+}
+
+aside#aside_gauche #vies_img img {
+	height: 25px;
+	width: auto;
+	margin-left: 5px;
+}
+
+aside#aside_gauche #show_txt {
+	font-size: 1.5em;
+	margin-right: 10px;
+}
+
+aside#aside_gauche #informationsComplementaires {
+	padding-left: 10px;
+	border-left: 3px solid LawnGreen;
+}
+
+aside#aside_gauche #informationsComplementaires #infos {
+	padding-left: 10px;
+	border-left: 3px solid RoyalBlue;
+	border-radius: 1em;
+}
+
+aside#aside_gauche #informationsComplementaires #resize {
+	padding-left: 10px;
+	border-left: 3px solid yellow;
+	border-radius: 1em;
+	color: orange;
+}
+
+aside#aside_gauche #informationsComplementaires div#booleens {
+	padding-left: 10px;
+	border-left: 3px solid green;
+	border-radius: 1em;
+}
+
+aside#aside_droite {
+	position: absolute;
+	z-index: 3;
+	right: 5px;
+	top: 5px;
+	text-align: right;
+}
+
+aside#aside_droite * {
+	padding: 10px;
+	max-width: 50px;
+}
+
+aside p {
+	font-size: 1.5em;
+}
+
+aside#contenu_plateforme * {
+	z-index: 3;
+	position: absolute;
+	padding: 0px;
+	margin: 0px;
+}
+
+header#newsRudolf {
+	display: flex;
+	position: absolute;
+	top: 50%; left: 50%;
+	transform: translate(-50%, -50%);
+	justify-content: space-between;
+	flex-direction: column;
+	z-index: 6;
+}
+
+#affiche, #version {
+	font-size: 1.3em;
+	padding-left: 5px;
+	padding-right: 15px;
+	opacity: 0.8;
+	background-color: white;
+	color: black;
+	border: 3px solid black;
+	border-radius: 1em;
+}
+
+#version * {
+	padding: 5px;
+	margin: auto;
+	text-align: center;
+}
+
+header#inconnus {
+	top: 0px;
+	width: 100%;
+/*	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-around; */
+}
+
+header#inconnus div {
+	position: absolute;
+/*	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	margin: auto;
+	background-color: red; */
+}
+
+header#inconnus img {
+	z-index: 3;
+}
+
+section {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+}
+
+section article {
+	z-index: 1;
+	position: relative;
+	height: 148px;
+	background-image: url("../img/Rudolf/Backgrounds/Neige.png");
+	background-repeat: round;
+	/*background-size: cover;*/
+}
+
+img#rudolf {
+	z-index: 4;
+	position: absolute;
+	bottom: 15px;
+	height: 55px;
+	width: 55px;
+}
+
+footer img#version_img {
+	z-index: 2;
+	max-height: 50px;
+	position: absolute;
+	right: 5px;
+	bottom: 150px;
+}
+
+a:link {color: black; text-decoration:underline;}
+a:visited {color: black; text-decoration:underline;}
+a:hover {color: black; text-decoration:none;}

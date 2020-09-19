@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Wallpaper_Night_Changer : Renderer Process</title>
+		<link rel="icon" type="image/png" href="./public/img/tray.png" />
+    	<style type="text/css">
+	    	body {
+				color: white;
+				background-color: rgb(45, 45, 45);
+				text-align: center;
+			}
+		</style>
+    </head>
+    <body>
+    	<h1>Cette fenêtre est là pour utiliser l'API HTML5 et à des fins de débogage.</h1>
+    	<h1>Cette fenêtre ne devrait pas être visible.</h1>
+    	<h1>Merci de signaler ce bug.</h1>
+    	<div>
+    		<h3>Good Night : </h3>
+	    	<audio id="goodNight" controls>
+	    		<source src="public/audio/goodNight.ogg" type="audio/ogg" />
+	    		Your browser does not support the audio tag.
+	    	</audio>
+	    </div>
+    	<div>
+    		<h3>Good morning : </h3>
+    		<audio id="goodMorning" controls>
+	    		<source src="public/audio/goodMorning.ogg" type="audio/ogg" />
+	    		Your browser does not support the audio tag.
+    		</audio>
+    	</div>
+	</body>
+	<script type="text/javascript" src="updater.js"></script>
+	<script type="text/javascript">
+		//const homedir = require("os").homedir();
+		//const dataDir = homedir+"/.DawnowlApps/Wallpaper_Night_Changer/";
+		const platform = require("os").platform();
+
+		//const { ipcRenderer, shell } = require("electron");
+		//const fs = require("fs");
+
+		var date = new Date(),
+		hours = date.getHours(),
+		minutes = date.getMinutes();
+
+		function checkTime() {
+			date = new Date();
+			hours = date.getHours();
+			minutes = date.getMinutes();
+
+			fs.readFile(dataDir+"config.json", "utf8", (err, jsonString) => {
+				if (err) return ipcRenderer.send("error-dialog", "rendererProcess readFile config.json error : \n"+err);
+				let localConfigJSON=JSON.parse(jsonString),
+				dayGlobalTime=Number(localConfigJSON.toDayTime[0]+("0"+localConfigJSON.toDayTime[1]).slice(-2)),
+				nightGlobalTime=Number(localConfigJSON.toNightTime[0]+("0"+localConfigJSON.toNightTime[1]).slice(-2)),
+				globalTime=Number(hours+("0"+minutes).slice(-2)),
+				lastChange=localConfigJSON.lastChange;
+
+				if (nightGlobalTime>=globalTime && globalTime>=dayGlobalTime && lastChange=="day") ipcRenderer.send("info-log", "You're in day time");
+				else if ((globalTime>=nightGlobalTime || globalTime<=dayGlobalTime) && lastChange=="night") ipcRenderer.send("info-log", "You're in night time");
+				else if (nightGlobalTime>=globalTime && globalTime>=dayGlobalTime && lastChange!="day") {
+					ipcRenderer.send("info-log", "It's daytime !");
+					if (localConfigJSON.notifications) {
+						new Notification("Good morning, everyone!", {
+							body: "It is now "+(hours>12||hours==0 ? Math.abs(hours-12) : hours)+(hours>=12 ? "p.m." : "a.m.")+" and nighttime is officially over! Time to rise and shine!\n"+
+							"Get ready to greet another beee-yutiful day!",
+							icon: __dirname+"/public/img/monokuma.png"
+						});
+						document.getElementById("goodMorning").play();
+					}
+					ipcRenderer.send("changingTime", false);
+					localConfigJSON.lastChange="day";
+					fs.writeFileSync(dataDir+"config.json", JSON.stringify(localConfigJSON));
+				}
+				else if ((globalTime>=nightGlobalTime || globalTime<=dayGlobalTime) && lastChange!="night") {
+					ipcRenderer.send("info-log", "It's nighttime !");
+					if (localConfigJSON.notifications) {
+						new Notification("It is know "+(hours>12||hours==0 ? Math.abs(hours-12) : hours)+(hours>=12 ? "p.m." : "a.m.")+" As such, it is officially nighttime.", {
+							body: "Okay then...sweet dreams everyonne! Good night, sleep tight, don't let the bed bugs bite...",
+							icon: __dirname+"/public/img/monokuma.png"
+						});
+						document.getElementById("goodNight").play();
+					}
+					ipcRenderer.send("changingTime", true);
+					localConfigJSON.lastChange="night";
+					fs.writeFileSync(dataDir+"config.json", JSON.stringify(localConfigJSON));
+				}
+				else {
+					ipcRenderer.send("error-dialog", "Your configuration is corrupted and has been deleted.\nPlease restart the application for changes to take effect");
+					fs.unlinkSync(dataDir+"Wallpaper_Night_Changer.json");
+					fs.unlinkSync(dataDir+"config.json");
+				}
+			});
+		}
+
+		/*ipcRenderer.on("reload-wallpaper", (event) => {
+			fs.readFileSync(dataDir+"config.json", "utf8");
+			let localConfigJSON=JSON.parse(jsonString);
+			localConfigJSON.lastChange=null;
+			fs.writeFileSync(dataDir+"config.json", JSON.stringify(localConfigJSON));
+			checkTime();
+	    });*/
+
+		checkTime();
+		setInterval(checkTime, 1000*60*30);
+	</script>
+</html>

@@ -1,0 +1,7 @@
+{
+	"startUp": true,
+	"toNightTime": [19, 0],
+	"toDayTime": [7, 0],
+	"lastChange": null,
+	"notifications": false
+}

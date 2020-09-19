@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Vyrus</title>
+		<link rel="icon" type="image/png" href="./public/img/icon.png" />
+    	<style type="text/css">
+	    	body {
+				color: white;
+				background-color: rgb(45, 45, 45);
+				text-align: center;
+			}
+			img#start {
+				position: absolute;
+				top: 50%; left: 50%;	
+				transform: translate(-50%, -50%) rotate(45deg);
+				height: 300px;
+			}
+			div#hide {
+				display: none;
+			}
+			div.loading {
+				height: 10px;
+				border-radius: 1em;
+				margin: 0.5em 0;
+			}			
+		</style>
+    </head>
+    <body>
+    	<img id="start" src="bug.svg" alt="Start" onclick="document.getElementById('hide').style.display='initial'; this.style.display='none';">
+    	<div id="hide">
+    		<video controls="" id="video"></video>
+    		<h2 id="user">USER NAME REQUEST</h2>
+    	</div>
+	</body>
+	<script type="text/javascript" src="updater.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+</html>

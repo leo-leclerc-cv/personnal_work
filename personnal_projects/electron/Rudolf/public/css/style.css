@@ -1,0 +1,188 @@
+body {
+	background-color: #dedede;
+	color: #333333;
+}
+
+header#Boot h1 {
+	text-align: center;
+	z-index: 0;
+}
+
+header#Boot img#Haut {
+    top: -500px;
+    position: absolute;
+    z-index: 1;
+}
+
+header#Boot img#Bas {
+    bottom: -300px;
+    position: absolute;
+    z-index: 2;
+}
+
+div#bloc_page {
+	text-align: center;
+	display: none;
+}
+
+.Exit {
+	height: 75px;
+	position: fixed;
+	bottom: 5px;
+	right: 5px;
+	z-index: 99;
+}
+
+.Exit:hover, .Exit:focus {
+	height: 100px;
+}
+
+table {
+    border-collapse: collapse;
+}
+td, th, tr {
+	margin: auto;
+    border: 2px solid black;
+}
+
+.button, .danger {
+	margin: 10px;
+	color: black;
+	padding: 5px;
+	border-top: 2px solid LightSlateGray;
+	border-left: 2px solid LightSlateGray;
+	border-bottom: 2px solid DimGray;
+	border-right: 2px solid DimGray;
+	border-radius: 0.3em;
+}
+.button { background-color: Silver; }
+.button:hover {	background-color: LightGrey; }
+
+.danger { background-color: Crimson; }
+.danger:hover {	background-color: red; }
+
+.false {
+	color: #d64937;
+	background-color: #333333;
+	border: 5px solid #d64937;
+	padding: 10px;
+	text-align: center;
+	font-size: 1.5em;
+	border-radius: 1.5em;
+}
+
+.hideInput {
+	display: none;
+}
+
+.hideInput + label {
+	cursor: pointer; /* "hand" cursor */
+	padding: 2px 10px 2px 10px;
+	font-size: 0.85em;
+	color: black;
+	border-style: none;
+	border-left-style: solid;
+	border-right-style: solid;
+	border-radius: 0.25em;
+	border-width: 4px;
+	border-color: rgb(0, 111, 176);
+	background-color: rgba(250, 250, 250, 0.75);
+}
+
+*:required {
+	border-color: #d64937;
+	/*background-color: rgba(250, 113, 69, 0.75);*/
+}
+
+form {
+	display: flex;
+}
+
+@media all and (max-width: 990px) {
+	form {
+		flex-direction: column;
+	}
+
+	form * {
+		margin-top: 10px;
+		text-align: center;
+	}
+}
+
+@media all and (min-width: 990px) {
+	form {
+		flex-direction: row;
+		justify-content: space-around;
+	}
+}
+
+input {
+	border-style: none;
+	border-left-style: solid;
+	border-right-style: solid;
+	border-radius: 0.25em;
+	border-width: 4px;
+	border-color: rgb(0, 131, 209);
+	background-color: rgba(250, 250, 250, 0.75);
+}
+
+input[type="submit"] {
+	border-color: green;
+}
+
+input#deconnexion {
+	padding: 5px;
+	border-color: orange;
+	position: fixed;
+	bottom: 5px;
+	right: 10px;
+}
+
+input:hover, .hideInput + label:hover {
+	background-color: rgba(223, 255, 231, 0.75);
+}
+
+input:focus, .hideInput + label:focus {
+	background-color: rgb(165, 255, 75);
+}
+
+span.big_button {
+	border-style: none;
+	border-left-style: solid;
+	border-right-style: solid;
+	border-width: 4px;
+	font-size: 1.5em;
+	border-color: #333333;
+	border-radius: 0.5em;
+	padding: 0.5em;
+
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b4e391+0,61c419+50,b4e391+100;Green+3D */
+	background: #b4e391; /* Old browsers */
+	background: -moz-linear-gradient(top, #b4e391 0%, #61c419 50%, #b4e391 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #b4e391 0%,#61c419 50%,#b4e391 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #b4e391 0%,#61c419 50%,#b4e391 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4e391', endColorstr='#b4e391',GradientType=0 ); /* IE6-9 */
+}
+
+div#news {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	z-index: 99;
+}
+
+div#news p {
+	padding: 5px;
+	border-left-style: solid;
+	border-color: yellow;
+	border-radius: 0.5em;
+	background-color: rgba(250, 250, 250, 0.5);
+}
+
+a[title="Hosted on free web hosting 000webhost.com. Host your own website for FREE."] {
+	display: none;
+}
+
+a:link {color: black; text-decoration:none;}
+a:visited {color: black; text-decoration:none;}
+a:hover {color: black; text-decoration:underline;}

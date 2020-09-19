@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Configuration des horaires de transition</title>
+		<link rel="icon" type="image/png" href="./public/img/tray.png" />
+    	<style type="text/css">
+	    	body {
+				color: white;
+				background-color: rgb(45, 45, 45);
+				text-align: center;
+				font-size: 1.5em;
+			}
+
+			button {
+				font-size: 1.25em;
+				margin-top: 0.25em;
+			}
+
+			input {
+				border-radius: 0.5em;
+				border-width: 0.4em;
+				padding: 0.25em;
+			}
+			input:invalid {
+				border-color: red;
+			}
+			input:valid {
+				border-color: green;
+			}
+
+			img {
+				max-width: 400px;
+				max-height: 400px;
+				margin: auto;
+			}
+
+			div#flexImg, div#fartherDiv, div.innerDiv, figure figcaption {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-evenly;
+			}
+
+			figure {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+			}
+
+			figure figcaption {
+				margin-top: 0.5em;
+			}
+
+			figure figcaption p, span{
+				margin: auto 0.25em;
+			}
+
+			div.middleDiv {
+				padding: 0.25em;
+			}
+    	</style>
+    	<link rel="stylesheet" type="text/css" href="./public/css/fancifulButtons.css" />
+    </head>
+    <body>
+    	<div class="close_button" onclick="window.close()"></div>
+    	<h2 id="mode">Mode actuel : </h2>
+    	<div id="flexImg">
+    		<figure>
+    			<img src="" onclick="//shell.openItem(dataDir+'toDay');" id="localToDayImg" alt="Local Day Wallpaper" />
+    			<figcaption>
+    				<p id="dayStr">Image de jour actuelle</p>
+    				<span class="css_button" id="dayImg">Changer d'image</span>
+    			</figcaption>
+    		</figure>
+    		<figure>
+    			<img src="" onclick="//shell.openItem(dataDir+'toNight');" id="localToNightImg" alt="Local Night Wallpaper" />
+    			<figcaption>
+    				<p id="nightStr">Image de nuit actuelle</p>
+    				<span class="css_button" id="nightImg">Changer d'image</span>
+    			</figcaption>
+    		</figure>
+    	</div>
+    	<div id="fartherDiv">
+			<div class="middleDiv">
+				<p>Ancienne transition de nuit vers jour à <span id="oldToDay"></span></p>
+				<p>
+					Nouvelle transition de nuit vers jour à  
+					<input type="time" value="07:00" id="toDayTime">
+				</p>
+			</div>
+	    	<div class="middleDiv">
+				<p>Ancienne transition de jour vers nuit à <span id="oldToNight"></span></p>
+				<p>
+					Nouvelle transition de jour vers nuit à 
+					<input type="time" value="19:00" id="toNightTime">
+				</p>
+			</div>
+		</div>
+		<button class="css_button" id="confirm">Valider</button>
+	</body>
+	<script type="text/javascript">
+		const dataDir = require("os").homedir()+"/.DawnowlApps/Wallpaper_Night_Changer/";
+		const { ipcRenderer, shell } = require("electron"),
+		fs = require("fs");
+
+		window.onbeforeunload=function(){
+		    ipcRenderer.send("closing-whenToChangeTo");
+		}
+
+		function addZero(nmbStr) {
+			if (nmbStr<10) return nmbStr="0"+nmbStr;
+			else return nmbStr;
+		}
+
+		ipcRenderer.on("selected-file", (event, arg, keying) => {
+			switch (keying) {
+		    	case "jour":
+			    	fs.copyFile(arg, dataDir+"toDay", (err) => {
+						if (err) {
+							ipcRenderer.send("error-dialog", "whenToChangeTo copyFile toDay error : \n"+err);
+							document.getElementById("dayStr").textContent="Image de jour inchangée !";
+							document.getElementById("dayStr").style.color="red";
+						}
+						else {
+							document.getElementById("localToDayImg").src+="&"+Math.random().toString(36).substring(7)+"=whatever";
+							document.getElementById("dayStr").textContent="Image de jour changée avec succès !";
+							document.getElementById("dayStr").style.color="green";
+						}
+						setTimeout(function(){
+							document.getElementById("dayStr").textContent="Image de jour actuelle";
+							document.getElementById("dayStr").style.color="white";
+						}, 3000);
+			    	});
+			    break;
+			    case "nuit":
+			    	fs.copyFile(arg, dataDir+"toNight", (err) => {
+						if (err) {
+							ipcRenderer.send("error-dialog", "whenToChangeTo copyFile toNight error : \n"+err);
+							document.getElementById("nightStr").textContent="Image de nuit inchangée !";
+							document.getElementById("nightStr").style.color="red";
+						}
+						else {
+							document.getElementById("localToNightImg").src+="&"+Math.random().toString(36).substring(7)+"=whatever";
+							document.getElementById("nightStr").textContent="Image de nuit changée avec succès !";
+							document.getElementById("nightStr").style.color="green";
+						}
+						setTimeout(function(){
+							document.getElementById("nightStr").textContent="Image de nuit actuelle";
+							document.getElementById("nightStr").style.color="white";
+						}, 3000);
+			    	});
+			    break;
+			    default:
+			    	ipcRenderer.send("error-dialog", "whenToChangeTo unknown keying error : \n"+err);
+			    break;
+			}
+	    });
+
+		document.getElementById("localToDayImg").src=dataDir+"toDay?init=true";
+		document.getElementById("localToNightImg").src=dataDir+"toNight?init=true";
+
+		let localConfigJSON=JSON.parse(fs.readFileSync(dataDir+"/config.json", "utf8"));
+		document.getElementById("oldToDay").textContent=addZero(localConfigJSON.toDayTime[0])+":"+addZero(localConfigJSON.toDayTime[1]);
+		document.getElementById("oldToNight").textContent=addZero(localConfigJSON.toNightTime[0])+":"+addZero(localConfigJSON.toNightTime[1]);
+		document.getElementById("mode").textContent+=localConfigJSON.lastChange;
+
+		document.getElementById("dayImg").addEventListener("click", function (event) {
+		    ipcRenderer.send("open-file-dialog", "jour");
+
+		});
+		document.getElementById("nightImg").addEventListener("click", function (event) {
+			ipcRenderer.send("open-file-dialog", "nuit");
+		});
+
+		document.getElementById("confirm").addEventListener("click", function (event) {
+			let newDayHours=Number(document.getElementById("toDayTime").value[0]+document.getElementById("toDayTime").value[1]),
+			newDayMinutes=Number(document.getElementById("toDayTime").value[3]+document.getElementById("toDayTime").value[4]),
+			newNightHours=Number(document.getElementById("toNightTime").value[0]+document.getElementById("toNightTime").value[1]),
+			newNightMinutes=Number(document.getElementById("toNightTime").value[3]+document.getElementById("toNightTime").value[4]);
+
+			if ( (newDayHours>=0 && newDayHours<=23) && (newNightHours>=0 && newNightHours<=23) && (newDayMinutes>=0 && newDayMinutes<=59) && (newNightMinutes>=0 && newNightMinutes<=59) && (newDayHours!=null && newDayMinutes!=null && newNightHours!=null && newNightMinutes!=null) ) {
+				fs.readFile(dataDir+"config.json", "utf8", (err, jsonString) => {
+					if (err) return ipcRenderer.send("error-dialog", "whenToChangeTo readFile config.json error : \n"+err);
+					let localConfigJSON=JSON.parse(jsonString);
+					localConfigJSON.toDayTime[0]=newDayHours;
+					localConfigJSON.toDayTime[1]=newDayMinutes;
+					localConfigJSON.toNightTime[0]=newNightHours;
+					localConfigJSON.toNightTime[1]=newNightMinutes;
+			  		fs.writeFile(dataDir+"config.json", JSON.stringify(localConfigJSON), function(err) {
+			  			if(err) return ipcRenderer.send("error-dialog", "whenToChangeTo writeFile config.json error : \n"+err);
+			  			window.close();
+			  		});
+			  	});
+			}
+			else ipcRenderer.send("info-dialog", "Veuillez entrer des horaires valides.");
+		});
+	</script>
+</html>

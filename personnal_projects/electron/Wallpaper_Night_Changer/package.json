@@ -1,0 +1,50 @@
+{
+  "name": "Wallpaper_Night_Changer",
+  "spaceName": "Wallpaper Night Changer",
+  "version": "1.0.1",
+  "changeLogs": "Support de KDE",
+  "build": {
+    "appId": "com.electron.dawnowlApps.wallpaperNightChanger",
+    "productName": "Wallpaper_Night_Changer",
+    "copyright": "CC-BY-NC-SA-4.0 2020 Dawnowl",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "deb": {
+      "category": "Utility"
+    }
+  },
+  "description": "Change wallpaper at nighttime and daytime (to be configured within the app)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug",
+    "dist:win32": "electron-builder -w",
+    "dist:mac": "electron-builder -m",
+    "dist:deb": "electron-builder --linux deb",
+    "dist:arch": "electron-builder --linux pacman",
+    "update": "yarn add electron@latest electron-builder@latest --dev",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "author": {
+    "name": "Dawnowl",
+    "email": "Dawnowl444@gmail.com",
+    "url": "${homepage}"
+  },
+  "homepage": "https://dawnowl444.000webhostapp.com/index.php",
+  "license": "CC-BY-NC-SA-4.0",
+  "devDependencies": {
+    "electron": "^9.0.0",
+    "electron-builder": "^22.7.0"
+  }
+}

@@ -1,0 +1,23 @@
+footer img#version_img {
+	z-index: 2;
+	max-height: 50px;
+	position: absolute;
+	right: 15px;
+	top: 225px;
+}
+
+#version {
+	font-size: 1em;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#version * {
+	padding: 1px;
+	margin: auto;
+	text-align: center;
+}
+
+#version_img {
+	border-radius: 1em;
+}

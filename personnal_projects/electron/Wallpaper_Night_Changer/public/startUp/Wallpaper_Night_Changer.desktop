@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=Wallpaper_Night_Changer
+Exec=/opt/Wallpaper_Night_Changer/wallpaper_night_changer %U
+Icon=wallpaper_night_changer
+Terminal=false
