@@ -1,0 +1,1 @@
+<?php header ("Location: ../../AJAX.php?API=1&request=Dawnowl_Updater&download=win32"); ?>

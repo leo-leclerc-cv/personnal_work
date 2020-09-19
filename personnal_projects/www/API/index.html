@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="icon" type="image/png" href="../public/img/toolBox.png">
+		<meta charset="utf-8" />
+		<title>Quelle API choisir ?</title>
+		<link rel="stylesheet" type="text/css" href="../public/css/style.css" />
+		<style type="text/css">
+			body {
+				background-color: rgb(45, 45, 45);
+				color: white;
+				text-align: center;
+			}
+			div#blocPage {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				flex-wrap: wrap;
+			}
+			div#blocPage a figure {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+			}
+			div#blocPage a figure img {
+				margin: auto;
+				max-height: 356px;
+				padding: 25px;
+				transition-property: max-height, padding;
+				transition-duration: 0.5s;
+				transition-timing-function: ease-in-out;
+			}
+			div#blocPage a figure img:hover {
+				max-height: 456px;
+				padding: 0px;
+			}
+			div#blocPage a figure figcaption{
+				margin: auto;
+				font-size: 3em;
+				max-width: 512px;
+			}
+			a:link {color:white; text-decoration:none;}
+			a:visited {color:white; text-decoration:none;}
+			a:hover {color:white; text-decoration:none;}
+		</style>
+	</head>
+	<body>
+		<div id="blocPage">
+			<a href="./AJAX.php"><figure id="Dawnowl_Updater">
+				<img src="./AJAX.php?request=Dawnowl_Updater&amp;img=true&amp;API=1">
+				<figcaption>API </figcaption>
+			</figure></a>
+			<a href="./Vyrus.php"><figure id="Vyrus">
+				<img src="./AJAX.php?request=Vyrus&amp;img=true&amp;API=1">
+				<figcaption>API </figcaption>
+			</figure></a>	
+		</div>
+	</body>
+	<script type="text/javascript">
+	    let xhr = new XMLHttpRequest();
+	    xhr.timeout = 3000;
+	    xhr.open("GET", "./AJAX.php?request=support&API=1");
+	    xhr.addEventListener("readystatechange", function() {
+	    	if (xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200)) {
+	    		let request = JSON.parse(xhr.responseText);
+	    		document.querySelector("figure#Dawnowl_Updater figcaption").textContent+=request.name[0]+" version "+request.details[4];
+	    		document.querySelector("figure#Vyrus figcaption").textContent+=request.name[3];
+	    	}
+	    	else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) {
+	    		alert("Une erreur est survenue durant Le téléchargement des détails !\nErreur : " + xhr.status + "\nDescription : " + xhr.statusText);
+	    	}
+	    });
+	    xhr.send(null);
+	</script>
+</html>
