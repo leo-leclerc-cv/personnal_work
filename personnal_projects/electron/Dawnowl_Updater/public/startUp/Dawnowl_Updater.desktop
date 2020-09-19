@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Categories=Internet
+Name=Dawnowl_Updater
+Comment=Updater for DawnOwl apps
+Exec=/opt/Dawnowl_Updater/dawnowl_updater %U
+Icon=dawnowl_updater
+Path=
+Terminal=false
+StartupNotify=true
+Hidden=false
+X-GNOME-Autostart-enabled=true

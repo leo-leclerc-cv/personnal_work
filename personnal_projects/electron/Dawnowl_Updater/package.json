@@ -1,0 +1,50 @@
+{
+  "name": "Dawnowl_Updater",
+  "spaceName": "Dawnowl Updater",
+  "version": "2.1.0",
+  "changeLogs": "Stabilitée accrue et améliorations graphiques",
+  "build": {
+    "appId": "com.electron.dawnowlApps.dawnowlUpdater",
+    "productName": "Dawnowl_Updater",
+    "copyright": "CC-BY-NC-SA-4.0+ 2020 Dawnowl",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "deb": {
+      "category": "Network"
+    }
+  },
+  "description": "Updater for Dawnowl applications.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug",
+    "maintenance": "electron . --maintenance",
+    "dist:win32": "electron-builder -w",
+    "dist:mac": "electron-builder -m",
+    "dist:linux": "electron-builder --linux deb",
+    "update": "yarn add electron@latest electron-builder@latest --dev",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "author": {
+    "name": "Dawnowl",
+    "email": "Dawnowl444@gmail.com",
+    "url": "${homepage}"
+  },
+  "homepage": "https://dawnowl444.000webhostapp.com/index.php",
+  "license": "CC-BY-NC-SA-4.0+",
+  "devDependencies": {
+    "electron": "^8.2.5",
+    "electron-builder": "^22.6.0"
+  }
+}

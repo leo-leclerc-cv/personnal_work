@@ -1,0 +1,342 @@
+body {
+	display: flex;
+	flex-direction: column;
+	background-color: rgb(45, 45, 45);
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.update, .reload, .cancel, div.afterLoad img, .clear {
+	cursor: pointer;
+}
+
+.icon, .reload, .update, .cancel, .clear {
+	max-height: 100px;
+	max-width: 100px;
+	height: auto;
+	width: auto;
+}
+
+div.afterLoad img {
+	max-height: 50px;
+	max-width: 50px;
+}
+
+div.afterLoad {
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	display: none;
+}
+
+.icon {
+	border: 2px solid grey;
+	border-radius: 1.5em;
+	box-shadow: 2px 2px 2px grey;
+	background-color: rgba(211, 211, 211, 0.5);
+}
+
+.update, .unload, .cancel, .clear, div.afterLoad {
+	display: none;
+}
+
+div.container {
+	margin: 1.5em;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-radius: 5px;
+	background-color: #b82e8a;
+	padding: 1em;
+
+	transition-property: margin, padding;
+	transition-duration: 1s;
+	transition-timing-function: ease-out;
+
+	margin: 1.5em;
+	padding: 1em;
+}
+
+div.container:hover {
+	margin: 1em;
+	padding: 1.5em;
+}
+
+div.container div.changeLogs, div.container div.versionComparaison, div.container img, div.container span.title, div.container div.afterLoad  {
+	text-align: center;
+	margin: auto 0.25em;
+	padding: 0.25em;
+}
+
+span.title {
+	font-size: 2em;
+	flex: 1;
+}
+
+div.versionComparaison, div.changeLogs {
+	min-height: 100px;
+	min-width: 100px;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+div.versionComparaison {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	background-color: #33cc33;
+	flex: 2;
+}
+
+div.versionComparaison * {
+	font-size: 1.25em;
+	margin: auto;
+}
+
+div.exterior {
+	display: none;
+	width: 90%;
+	height: 0.25em;
+	border-radius: 15px;
+	background-color: grey;
+	border: 2px solid grey;
+}
+
+div.interior {
+	width: 10%;
+	height: 100%;
+	margin: 0;
+	border-radius: 15px;
+	background-color: #F5C4B8;
+	transition-property: background-color;
+	transition-duration: 0.95s;
+	transition-timing-function: linear;
+}
+
+div.changeLogs {
+	position: relative;
+	background-color: #00ccff;
+	flex: 3;
+}
+
+div.changeLogs div {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    font-size: 1.25em;
+}
+
+div.changeLogs *, div.versionComparaison * {
+	word-break: break-word;
+}
+
+img.unload {
+	transform: scaleX(-1);
+}
+
+img.reload {
+	animation-duration: 3s;
+}
+
+@keyframes turnAround {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(3turn);
+	}
+}
+
+div#background {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background-color: rgb(45, 45, 45);
+	opacity: 0.95;
+	cursor: wait;
+}
+
+svg#loading {
+	position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+	height: 500px;
+	width: 500px;
+}
+
+svg#loading circle {
+	cx: 250;
+    cy: 250;
+    r: 220;
+	fill: rgba(45, 45, 45, 0);
+	stroke: #392359;
+	stroke-width: 50;
+	stroke-dasharray: 0 1382; /* C = 2π × R */
+	stroke-linecap: round;
+	animation-name: roundLoading;
+	animation-timing-function: ease-in-out;
+	animation-duration: 5s;
+}
+
+@keyframes roundLoading {
+	from {
+		stroke: #392359;
+		stroke-dasharray: 0 1382;
+	}
+	to {
+		stroke: #9f7ecd;
+		stroke-dasharray: 1382 1382;
+	}
+}
+
+img#logo {
+	position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+	height: 300px;
+	animation-name: horsingAround;
+	animation-timing-function: ease-in-out;
+	animation-duration: 5s;
+}
+
+@keyframes horsingAround {
+	from {
+		transform: translate(-50%, -50%) rotate(0turn);
+	}
+	to {
+		transform: translate(-50%, -50%) rotate(3turn);
+	}
+}
+
+#decrypt {
+	display: none;
+	padding: 0.75em;
+	color: #ff5050;
+	background-color: #666699;
+	border: 0.25em solid #ff5050;
+	border-radius: 0.5em;
+	position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+@keyframes borderInverse{
+	from {
+		color: #ff5050;
+		background-color: #666699;
+		border-color: #ff5050;
+	}
+	to {
+		color: #666699;
+		background-color: #ff5050;
+		border-color: #666699;
+	}
+}
+
+div#loadingPointContainer {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+}
+
+span.loadingPoint {
+	height: 25px;
+	width: 25px;
+	border-radius: 100%;
+	background-color: #ff5050;
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+span#a.loadingPoint {
+	animation-name: a;
+}
+
+span#b.loadingPoint {
+	animation-name: b;
+}
+
+span#c.loadingPoint {
+	animation-name: c;
+}
+
+span#d.loadingPoint {
+	animation-name: d;
+}
+
+span#e.loadingPoint {
+	animation-name: e;
+}
+
+span#f.loadingPoint {
+	animation-name: f;
+}
+
+@keyframes a{
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes b{
+	from {
+		opacity: 0;
+	}
+	20% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes c{
+	from {
+		opacity: 0;
+	}
+	40% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes d{
+	from {
+		opacity: 0;
+	}
+	60% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes e{
+	from {
+		opacity: 0;
+	}
+	80% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes f{
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}

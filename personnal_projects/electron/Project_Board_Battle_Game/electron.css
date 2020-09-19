@@ -1,0 +1,24 @@
+body {
+ 	background-color: #938EB5;
+}
+
+a {
+	padding: 10px;
+	border-radius: 0.5em;
+}
+
+#info_container #player_tour_container {
+	right: 5px;
+}
+
+#info_container #points_P1_container {
+	right: 5px;
+}
+
+#info_container #points_P2_container {
+	left: 5px;
+}
+
+#info_container #moving_points_container {
+	left: 5px;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Configuration des intervalles de vérification</title>
+		<link rel="icon" type="image/png" href="./public/img/tray.png" />
+    	<style type="text/css">
+	    	body {
+				color: white;
+				background-color: rgb(45, 45, 45);
+				text-align: center;
+			}
+
+			form {
+				font-size: 1.5em;
+			}
+
+			form * {
+				margin: 0.25em;
+			}
+
+			button {
+				font-size: 1em;
+				top: 1.5em;
+			}
+
+			input {
+				border-radius: 0.5em;
+				border-width: 0.4em;
+			}
+
+			input:invalid {
+				border-color: red;
+			}
+			input:valid {
+				border-color: green;
+			}
+    	</style>
+    	<link rel="stylesheet" type="text/css" href="./public/css/fancifulButtons.css" />
+    </head>
+    <body>
+    	<div class="close_button" onclick="window.close()"></div>
+		<h2>Dernière vérification : <span id="lastCheck"></span></h2>
+		<h2>Ancienne vérification tout les : <span id="autoCheck"></span></h2>
+		<form name="interval">
+			<span>Nouvelle vérification tout les </span>
+			<input type="number" name="day" min="0" max="31" placeholder="0" id="day">
+			<span> jours et </span>
+			<input type="number" name="month" min="0" max="12" placeholder="1" id="month">
+			<span> mois.</span>
+			<br/>
+			<button type="submit" id="confirm" class="css_button">Valider</button>
+		</form>
+	</body>
+	<script type="text/javascript">
+		const { ipcRenderer } = require("electron"),
+		fs = require("fs");
+
+		const { dataDir } = require("./libraries.js");
+
+		window.onbeforeunload=function(){
+		    ipcRenderer.send("closing-checkIntervall");
+		}
+
+		let localConfigJSON=JSON.parse(fs.readFileSync(dataDir+"/config.json", "utf8"));
+		document.getElementById("lastCheck").textContent=localConfigJSON.lastCheck.day+"/"+localConfigJSON.lastCheck.month+"/"+localConfigJSON.lastCheck.year;
+		document.getElementById("autoCheck").textContent="tout les "+localConfigJSON.autoCheck.day+" jours et "+localConfigJSON.autoCheck.month+" mois.";
+
+
+		document.getElementById("confirm").addEventListener("click", function (event) {
+			let formMonth=Number(document.forms["interval"]["month"].value), formDay=Number(document.forms["interval"]["day"].value);
+			if ( (formMonth>=0 && formDay<=31) && (formDay>=0 && formMonth<=12) && (formMonth!=0 || formDay!=0) ) {
+				fs.readFile(dataDir+"config.json", "utf8", (err, jsonString) => {
+					if (err) return ipcRenderer.send("error-dialog", "autoCheckInterval readFile config.json error : \n"+err);
+					let localConfigJSON=JSON.parse(jsonString);
+					localConfigJSON.autoCheck.day=formDay;
+					localConfigJSON.autoCheck.Month=formMonth;
+			  		fs.writeFile(dataDir+"config.json", JSON.stringify(localConfigJSON), function(err) {
+			  			if(err) return ipcRenderer.send("error-dialog", "autoCheckInterval writeFile config.json error: \n"+err);
+			  			window.close();
+			  		});
+			  	});
+			}
+			else ipcRenderer.send("info-dialog", "Veuillez entrer des intervalles valides.");
+		});
+	</script>
+</html>

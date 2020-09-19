@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Dawnowl Updater</title>
+    <link rel="stylesheet" type="text/css" href="public/css/style.css" />
+    <link rel="icon" type="image/png" href="./public/img/tray.png" />
+  </head>
+  <body>
+
+    <!-- XMLHttpRequest DATA -->
+
+    <div id="background">
+      <svg id="loading">
+        <circle></circle>
+      </svg>
+      <img src="public/img/logo.png" alt="Logo DawnOwl" id="logo">
+      <div id="decrypt" onclick="document.getElementById('background').style.display='none'; document.querySelector('body').style.overflowY='auto';">
+        <h1>Veuillez patienter pendant le désencodage, réencodage et écriture des données téléchargées.</h1>
+        <div id="loadingPointContainer">
+          <span class="loadingPoint" id="a"></span>
+          <span class="loadingPoint" id="b"></span>
+          <span class="loadingPoint" id="c"></span>
+          <span class="loadingPoint" id="d"></span>
+          <span class="loadingPoint" id="e"></span>
+          <span class="loadingPoint" id="f"></span>
+        </div>
+        <h1>(Cliquez ici pour désafficher l'avertissement)</h1>
+      </div>
+    </div>
+
+    <audio id="audio" src="public/audio/communication.ogg" type="audio/ogg">
+      Your browser does not support the <code>audio</code> element.
+    </audio>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>

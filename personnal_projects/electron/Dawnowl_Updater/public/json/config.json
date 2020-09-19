@@ -1,0 +1,13 @@
+{
+	"manualUpdate": true,
+	"startUp": true,
+	"autoCheck": {
+		"month": 1,
+		"day": 0
+	},
+	"lastCheck": {
+		"day": 5,
+		"month": 11,
+		"year": 1605
+	}
+}

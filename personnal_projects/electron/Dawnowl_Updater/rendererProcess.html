@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Dawnowl_Updater : Renderer Process</title>
+		<link rel="icon" type="image/png" href="./public/img/offlineTray.png" />
+    	<style type="text/css">
+	    	body {
+				color: white;
+				background-color: rgb(45, 45, 45);
+				text-align: center;
+			}
+		</style>
+    </head>
+    <body>
+    	<h1>Cette fenêtre est là pour utiliser l'API HTML5 et à des fins de débogage.</h1>
+    	<h1>Cette fenêtre ne devrait pas être visible.</h1>
+    	<h1>Merci de signaler ce bug.</h1>
+
+    	<button onclick="checkOnline();">Vérifier maj maintenant</button>
+	</body>
+	<script type="text/javascript">
+		const { ipcRenderer } = require("electron"),
+		fs = require("fs");
+
+		const { API, dataDir, programDir, errorNotification } = require("./libraries.js");
+
+		var date = new Date(),
+		day = date.getDate(),
+		month = date.getMonth()+1, //January is 0!
+		year = date.getFullYear();
+		var howManyErrorNotif=0;
+
+		const onlineStatus = () => {
+		    navigator.onLine ? ipcRenderer.send("tray-online") : ipcRenderer.send("tray-offline");
+		}
+		window.addEventListener("online",  onlineStatus);
+		window.addEventListener("offline",  onlineStatus);
+
+		function antiSpamErrorNotif(msg, http) {
+		    if (howManyErrorNotif==0) {
+		        howManyErrorNotif++;
+		        errorNotification(msg, http);
+		    }
+		    else {
+		        ipcRenderer.send("warn-log", "Dawnowl_Updater : Erreur "+http+"\n"+msg);
+		    }
+		}
+
+		function checkOnline () {
+			fs.readFile(dataDir+"config.json", "utf8", (err, jsonString) => {
+				let localConfigJSON=JSON.parse(jsonString);
+		  		if (err) {
+		  			ipcRenderer.send("error-dialog", "Erreur rendererProcess lecture de config n°1 : \n"+err);
+		  		}
+				let online=API+"support";
+			    let onlineSupportXHR = new XMLHttpRequest();
+			    onlineSupportXHR.timeout = 5000;
+			    onlineSupportXHR.open("GET", online);
+			    onlineSupportXHR.addEventListener("readystatechange", function() {
+			        if (onlineSupportXHR.readyState === XMLHttpRequest.DONE && (onlineSupportXHR.status === 200)) {
+			            fs.mkdir(dataDir+"cache/json/", { recursive: true }, (err) => {
+			                if(err) {
+			                	ipcRenderer.send("error-dialog", "Erreur rendererProcess création dossier : \n"+err);
+			                }
+			                fs.writeFile(dataDir+"cache/json/support.json", onlineSupportXHR.responseText, "utf8", function(err) {
+			                    if(err) {
+			                        ipcRenderer.send("error-dialog", "Erreur rendererProcess d'enregistrement du cache : \n"+err);
+			                    }
+			                });
+			            });
+			            let onlineSupportJSON=JSON.parse(onlineSupportXHR.responseText);
+			            let updateNeeded={ total: 0, spaceName: [] };
+
+
+			            let programsXHR=[]
+			            for (let i=0; i<onlineSupportJSON.name.length; i++) {
+				            online=API+onlineSupportJSON.name[i];
+					        programsXHR.push(new XMLHttpRequest())
+					        programsXHR[i].timeout = 3000;
+					        programsXHR[i].open("GET", online);
+					        programsXHR[i].addEventListener("readystatechange", function() {
+					            if (programsXHR[i].readyState === XMLHttpRequest.DONE && (programsXHR[i].status === 200)) {
+					                let name = JSON.parse(programsXHR[i].responseText);
+
+					                fs.readFile(programDir+onlineSupportJSON.name[i]+"/"+onlineSupportJSON.name[i]+".json", "utf8", (err, jsonString) => {
+					                    if (err) {
+					                    	console.log("%c"+onlineSupportJSON.name[i]+" non installee.", "color: orange;");
+					                    }
+					                    else{
+					                    	let local=JSON.parse(jsonString);
+					                    	if (name.version>local.version) {
+						                    	updateNeeded.total++;
+						                    	updateNeeded.spaceName.push(onlineSupportJSON.spaceName[i]);
+						                    }
+						                    else console.log("%c"+onlineSupportJSON.name[i]+" derniere version installee.", "color: green;");
+					                    }
+					                });
+					            }
+					            else if (programsXHR[i].readyState === XMLHttpRequest.DONE && programsXHR[i].status != 200) {
+					                fs.readFile(programDir+onlineSupportJSON.name[i]+'/'+onlineSupportJSON.name[i]+'.json', 'utf8', (err, jsonString) => {
+					                    if (err) {
+					                    	console.log("%coffline: "+onlineSupportJSON.name[i]+" non installee.", "color: purple;");
+					                    }
+					                    else {
+					                    	console.log("%coffline: "+onlineSupportJSON.name[i]+" installee.", "color: purple;");
+					                    }
+					                });
+					                antiSpamErrorNotif("Recherche de mise à jours pour "+onlineSupportJSON.name[i]+" impossible : "+programsXHR[i].statusText, programsXHR[i].status);
+					            }
+					        });
+					        programsXHR[i].send(null);
+			            }
+			            setTimeout(function() {
+				            if (updateNeeded.total>0) {
+							    let msg="";
+							    for (var i=0; i<updateNeeded.spaceName.length; i++) {
+							    	msg+=updateNeeded.spaceName[i];
+							    	if (!(i+1>=updateNeeded.spaceName.length)) {
+							    		msg+=", ";
+							    	}
+							    }
+
+							    let msgLeftOver="";
+							    if (i>1) {
+							    	msgLeftOver=" ont besoins d'être mit à jours";
+							    }
+							    else {
+							    	msgLeftOver=" a besoin d'être mit à jours";
+							    }
+
+							    let notification = {
+							    	title: updateNeeded.total+" mise à jours disponibles",
+							    	body: msg+msgLeftOver,
+							    	icon: "icon.png"
+							    };
+							    let myNotification = new window.Notification(notification.title, notification);
+							    myNotification.onclick = () => {
+							    	ipcRenderer.send("launch-mainGraphicInterface");
+							    }
+							}
+							else {
+								console.log("%cAucune mise à jours à faire", "color: blue;");
+							}
+						}, 3000); // timeout quand la requête XMLHttpRequest est finie/interrompue
+			        }
+			        else if (onlineSupportXHR.readyState === XMLHttpRequest.DONE && onlineSupportXHR.status != 200) {
+			            errorNotification("Recherche de mise à jours globales impossible : "+onlineSupportXHR.statusText, onlineSupportXHR.status);
+			            localConfigJSON.lastCheck.day=5;
+						localConfigJSON.lastCheck.month=11;
+						localConfigJSON.lastCheck.year=1605;
+						fs.writeFile(dataDir+"config.json", JSON.stringify(localConfigJSON), function(err) {
+				  			if(err) {
+				  				ipcRenderer.send("error-dialog", "Erreur rendererProcess écriture de config n°1 : \n"+err);
+				  			}
+				  		});
+			        }
+			    });
+			    onlineSupportXHR.send(null);
+
+				localConfigJSON.lastCheck.day=day;
+				localConfigJSON.lastCheck.month=month;
+				localConfigJSON.lastCheck.year=year;
+				fs.writeFile(dataDir+"config.json", JSON.stringify(localConfigJSON), function(err) {
+		  			if(err) {
+		  				ipcRenderer.send("error-dialog", "Erreur rendererProcess écriture de config n°2 : \n"+err);
+		  			}
+		  		});
+		  	});
+		}
+
+
+		function autoCheck () {
+			date = new Date();
+			day = date.getDate();
+			month = date.getMonth()+1;
+			year = date.getFullYear();
+
+			fs.readFile(dataDir+"config.json", "utf8", (err, jsonString) => {
+				let localConfigJSON=JSON.parse(jsonString);
+		  		if (err) {
+		  			ipcRenderer.send("error-dialog", "Erreur rendererProcess lecture de config n°2 : \n"+err);
+		  		}
+
+		  		let maxDays=0;
+		  		switch (month) {
+		  			case 1:
+		  				maxDays=31;
+		  			break;
+
+		  			case 2:
+		  				maxDays=28;
+		  			break;
+
+		  			case 3:
+		  				maxDays=31;
+		  			break;
+
+		  			case 4:
+		  				maxDays=30;
+		  			break;
+
+		  			case 5:
+		  				maxDays=31;
+		  			break;
+
+		  			case 6:
+		  				maxDays=30;
+		  			break;
+
+		  			case 7:
+		  				maxDays=31;
+		  			break;
+
+		  			case 8:
+		  				maxDays=31;
+		  			break;
+
+		  			case 9:
+		  				maxDays=30;
+		  			break;
+
+		  			case 10:
+		  				maxDays=31;
+		  			break;
+
+		  			case 11:
+		  				maxDays=30;
+		  			break;
+
+		  			case 12:
+		  				maxDays=31;
+		  			break;
+
+		  			default:
+		  				maxDays=false;
+		  			break;
+		  		}
+
+		  		let nextDayUpdate=localConfigJSON.lastCheck.day+localConfigJSON.autoCheck.day,
+		  		nextMonthUpdate=localConfigJSON.lastCheck.month+localConfigJSON.autoCheck.month;
+
+		  		if (nextDayUpdate>maxDays) {
+		  			nextMonthUpdate++;
+		  			nextDayUpdate-=maxDays;
+		  		}
+
+		  		if ((day>=nextDayUpdate&&month>=nextMonthUpdate)||year>localConfigJSON.lastCheck.year) {
+		  			checkOnline();
+		  		}
+		  		else {
+		  			console.log("Intervalle de verification non écoulé");
+		  		}
+		  	});
+		}
+
+		autoCheck();
+		var checkInterval=setInterval( autoCheck , 1000*60*60*2);
+	</script>
+</html>
